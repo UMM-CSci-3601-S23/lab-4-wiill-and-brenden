@@ -34,10 +34,7 @@ import io.javalin.http.NotFoundResponse;
 public class TodoController {
 
   static final String STATUS_KEY = "status";
-
-
-
-  private static final String STATUS_REGEX = "^(true|false)$";
+  private static final String STATUS_REGEX = "^(complete|incomplete)$";
 
 
   private final JacksonMongoCollection<Todo> todoCollection;
@@ -125,7 +122,7 @@ public class TodoController {
   }
 
   private Bson constructSortingOrder(Context ctx) {
-    // Sort the results. Use the `sortby` query param (default "name")
+    // Sort the results. Use the `sortby` query param (default "owner")
     // as the field to sort by, and the query param `sortorder` (default
     // "asc") to specify the sort order.
     String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "owner");
