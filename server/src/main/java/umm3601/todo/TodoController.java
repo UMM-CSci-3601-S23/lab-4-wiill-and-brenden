@@ -2,7 +2,7 @@ package umm3601.todo;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.regex;
+//import static com.mongodb.client.model.Filters.regex;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
+//import java.util.regex.Pattern;
 
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
@@ -200,17 +200,7 @@ public class TodoController {
    * @param email the email to generate an avatar for
    * @return a URI pointing to an avatar image
    */
-  private String generateAvatar(String email) {
-    String avatar;
-    try {
-      // generate unique md5 code for identicon
-      avatar = "https://gravatar.com/avatar/" + md5(email) + "?d=identicon";
-    } catch (NoSuchAlgorithmException ignored) {
-      // set to mystery person
-      avatar = "https://gravatar.com/avatar/?d=mp";
-    }
-    return avatar;
-  }
+
 
   /**
    * Utility function to generate the md5 hash for a given string
