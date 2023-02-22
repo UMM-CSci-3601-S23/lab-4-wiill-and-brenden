@@ -63,6 +63,14 @@
   </div>
 </div>
 
+<mat-divider></mat-divider>
+<section>
+
+  <mat-card-actions>
+    <button mat-button data-test="addTodoButton" [routerLink]="['/todos/new',]">Add Todo</button>
+  </mat-card-actions>
+</section>
+
 <div class="flex-row">
   <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredTodos; else todosError" >
     <!-- Switch between card and list view based on the viewType variable, set above in the mar-radio-group -->
