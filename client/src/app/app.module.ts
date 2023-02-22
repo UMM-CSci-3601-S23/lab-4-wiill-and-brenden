@@ -23,6 +23,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { AddTodoComponent } from './todos/add-todo/add-todo.component';
 import { AddUserComponent } from './users/add-user.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -66,6 +67,7 @@ const MATERIAL_MODULES: any[] = [
     TodoListComponent,
     TodoCardComponent,
     TodoProfileComponent,
+    AddTodoComponent,
   ],
   imports: [
     BrowserModule,

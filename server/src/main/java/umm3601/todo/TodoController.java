@@ -2,7 +2,7 @@ package umm3601.todo;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
-//import static com.mongodb.client.model.Filters.regex;
+import static com.mongodb.client.model.Filters.regex;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-//import java.util.regex.Pattern;
+import java.util.regex.Pattern;
 
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
@@ -34,6 +34,9 @@ import io.javalin.http.NotFoundResponse;
 public class TodoController {
 
   static final String STATUS_KEY = "status";
+  static final String BODY_KEY = "contains";
+  static final String LIMIT_KEY = "limit";
+
   private static final String STATUS_REGEX = "^(complete|incomplete)$";
 
 
@@ -106,13 +109,23 @@ public class TodoController {
   private Bson constructFilter(Context ctx) {
     List<Bson> filters = new ArrayList<>(); // start with a blank document
 
-
+    if (ctx.queryParamMap().containsKey(BODY_KEY)) {
+      Pattern pattern = Pattern.compile(ctx.queryParam(BODY_KEY), Pattern.CASE_INSENSITIVE);
+      filters.add(regex(BODY_KEY, pattern));
+    }
 
     if (ctx.queryParamMap().containsKey(STATUS_KEY)) {
+      Boolean StatusBool = true;
       String status = ctx.queryParamAsClass(STATUS_KEY, String.class)
         .check(it -> it.matches(STATUS_REGEX), "Todo must have a legal todo status")
         .get();
-      filters.add(eq(STATUS_KEY, status));
+      if (status.equals("complete")){
+           StatusBool = true;
+      }
+      else {
+        StatusBool = false;
+      }
+      filters.add(eq(STATUS_KEY, StatusBool));
     }
 
     // Combine the list of filters into a single filtering document.
@@ -151,7 +164,7 @@ public class TodoController {
      */
     Todo newTodo = ctx.bodyValidator(Todo.class)
       .check(usr -> usr.owner != null && usr.owner.length() > 0, "Todo must have a non-empty todo name")
-      //.check(usr -> usr.status.toString.matches(STATUS_REGEX), "Todo must have a legal status")
+     // .check(usr -> usr.status.matches(STATUS_REGEX), "Todo must have a legal status")
       .check(usr -> usr.body != null && usr.body.length() > 0, "Todo must have a non-empty company name")
       .check(usr -> usr.category != null && usr.category.length() > 0, "Todo must have a non-empty category name")
       .get();

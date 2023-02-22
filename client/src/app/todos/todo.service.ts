@@ -121,4 +121,5 @@ export class TodoService {
     // Send post request to add a new todo with the todo data as the body.
     return this.httpClient.post<{id: string}>(this.todoUrl, newTodo).pipe(map(res => res.id));
   }
+
 }
