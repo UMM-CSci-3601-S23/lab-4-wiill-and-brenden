@@ -34,8 +34,9 @@ import io.javalin.http.NotFoundResponse;
 public class TodoController {
 
   static final String STATUS_KEY = "status";
-  static final String BODY_KEY = "contains";
+  static final String QUERY_CONTAINS = "contains";
   static final String LIMIT_KEY = "limit";
+  static final String BODY_KEY = "body";
 
   private static final String STATUS_REGEX = "^(complete|incomplete)$";
 
@@ -108,9 +109,10 @@ public class TodoController {
 
   private Bson constructFilter(Context ctx) {
     List<Bson> filters = new ArrayList<>(); // start with a blank document
-
-    if (ctx.queryParamMap().containsKey(BODY_KEY)) {
-      Pattern pattern = Pattern.compile(ctx.queryParam(BODY_KEY), Pattern.CASE_INSENSITIVE);
+    // did the query include "contains"
+    if (ctx.queryParamMap().containsKey(QUERY_CONTAINS)) {
+      Pattern pattern = Pattern.compile(Pattern.quote(ctx.queryParam(QUERY_CONTAINS)), Pattern.CASE_INSENSITIVE);
+      // check that the todo objects have this pattern in their "body"
       filters.add(regex(BODY_KEY, pattern));
     }
 
