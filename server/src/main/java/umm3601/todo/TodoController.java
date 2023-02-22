@@ -121,8 +121,7 @@ public class TodoController {
         .get();
       if (status.equals("complete")) {
            statusbool = true;
-        }
-      else {
+        } else {
         statusbool = false;
         }
       filters.add(eq(STATUS_KEY, statusbool));
