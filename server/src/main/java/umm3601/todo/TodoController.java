@@ -115,17 +115,17 @@ public class TodoController {
     }
 
     if (ctx.queryParamMap().containsKey(STATUS_KEY)) {
-      Boolean StatusBool = true;
+      Boolean statusbool = true;
       String status = ctx.queryParamAsClass(STATUS_KEY, String.class)
         .check(it -> it.matches(STATUS_REGEX), "Todo must have a legal todo status")
         .get();
-      if (status.equals("complete")){
-           StatusBool = true;
-      }
+      if (status.equals("complete")) {
+           statusbool = true;
+        }
       else {
-        StatusBool = false;
-      }
-      filters.add(eq(STATUS_KEY, StatusBool));
+        statusbool = false;
+        }
+      filters.add(eq(STATUS_KEY, statusbool));
     }
 
     // Combine the list of filters into a single filtering document.
