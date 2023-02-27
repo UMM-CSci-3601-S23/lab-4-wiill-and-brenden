@@ -26,10 +26,8 @@ export class TodoListComponent implements OnInit {
 
   getTodosFromServer() {
     this.todoService.getTodos({
-      body: this.todoBody,
       status: this.todoStatus,
       sortBy: this.sortBy
-     // limit: this.limit
     }).subscribe(returnedTodos => {
       this.serverFilteredTodos = returnedTodos;
       this.updateFilter();
