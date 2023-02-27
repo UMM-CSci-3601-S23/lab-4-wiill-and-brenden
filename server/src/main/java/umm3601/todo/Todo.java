@@ -10,7 +10,7 @@ public class Todo {
   @ObjectId @Id
   public String _id;
   public String owner;
-  public boolean status;
+  public String status;
   public String body;
   public String category;
 
@@ -25,7 +25,7 @@ public class Todo {
 
   @Override
   public int hashCode() {
-    // This means that equal Users will hash the same, which is good.
+    // This means that equal Todos will hash the same, which is good.
     return _id.hashCode();
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Todo } from '../todo';
+import { Todo, TodoStatus} from '../todo';
 import { TodoService } from '../todo.service';
 @Component({
   selector: 'app-todo-list',
@@ -14,7 +14,7 @@ export class TodoListComponent implements OnInit {
 
   public todoID: string;
   public todoBody: string;
-  public todoStatus: string;
+  public todoStatus: TodoStatus;
   public todoOwner: string;
   public todoCategory: string;
   public viewType: 'card' | 'list' = 'card';
