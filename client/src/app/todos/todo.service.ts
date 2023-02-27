@@ -37,7 +37,8 @@ export class TodoService {
    *  from the server after a possibly substantial delay (because we're
    *  contacting a remote server over the Internet).
    */
-  getTodos(filters?: { owner?: string; status?: string; body?: string; category?: string; limit?: number }): Observable<Todo[]> {
+  getTodos(filters?: { owner?: string; status?: string; body?: string; category?: string; limit?: number;
+    orderBy?: string; sortBy?: string; }): Observable<Todo[]> {
     // `HttpParams` is essentially just a map used to hold key-value
     // pairs that are then encoded as "?key1=value1&key2=value2&…" in
     // the URL when we make the call to `.get()` below.
@@ -46,17 +47,18 @@ export class TodoService {
       if (filters.owner) {
         httpParams = httpParams.set('owner', filters.owner);
       }
-      if (filters.status) {
-        httpParams = httpParams.set('status', filters.status);
-      }
-      if (filters.body) {
-        httpParams = httpParams.set('contains', filters.body);
-      }
+
       if (filters.category) {
         httpParams = httpParams.set('category', filters.category);
       }
       if (filters.limit) {
         httpParams = httpParams.set('limit', filters.limit);
+      }
+      if (filters.orderBy){
+        httpParams = httpParams.set('sortorder', filters.orderBy);
+      }
+      if (filters.sortBy){
+        httpParams = httpParams.set('sortby', filters.sortBy);
       }
     }
     // Send the HTTP GET request with the given URL and parameters.
