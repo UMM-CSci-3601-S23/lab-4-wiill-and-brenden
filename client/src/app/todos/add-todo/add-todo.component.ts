@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Todo } from '../todo';
+import { Todo, TodoStatus } from '../todo';
 import { TodoService } from '../todo.service';
 
 @Component({
@@ -27,8 +27,6 @@ export class AddTodoComponent implements OnInit {
 
     status: [
       {type: 'required', message: 'Status is required'},
-      {type: 'minlength', message: 'Status must be at least 8 characters long'},
-      {type: 'maxlength', message: 'Status may not be greater than 10 characters long'},
       { type: 'pattern', message: 'Status must be either complete, or incomplete' }
     ],
 
@@ -75,8 +73,6 @@ export class AddTodoComponent implements OnInit {
 
       status: new UntypedFormControl('', Validators.compose([
         Validators.required,
-        // Validators.minLength(8),
-        // Validators.maxLength(10),
         Validators.pattern('^(complete|incomplete)$')
       ])),
 
@@ -107,7 +103,10 @@ export class AddTodoComponent implements OnInit {
 
     // eslint-disable-next-line prefer-const
     let todo = this.addTodoForm.value;
-    todo.status = false;
+    if (todo.status === 'incomplete') {todo.status = false;}
+    else {
+      todo.status = true;
+    }
 
 
     this.todoService.addTodo(todo).subscribe({
