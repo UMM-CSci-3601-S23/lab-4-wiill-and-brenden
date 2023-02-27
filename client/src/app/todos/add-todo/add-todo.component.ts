@@ -16,11 +16,10 @@ export class AddTodoComponent implements OnInit {
 
   todo: Todo;
 
-    // not sure if this name is magical and making it be found or if I'm missing something,
-  // but this is where the red text that shows up (when there is invalid input) comes from
+
   addTodoValidationMessages = {
     owner: [
-      {type: 'required', message: 'Owner is required'},
+      {type: 'required', message: 'Name is required'},
       {type: 'minlength', message: 'Name must be at least 2 characters long'},
       {type: 'maxlength', message: 'Name cannot be more than 50 characters long'},
       {type: 'existingOwner', message: 'Owner Name has already been taken'}
@@ -56,7 +55,7 @@ export class AddTodoComponent implements OnInit {
     // add todo form validations
     this.addTodoForm = this.fb.group({
       // We allow alphanumeric input and limit the length for owner.
-      name: new UntypedFormControl('', Validators.compose([
+      owner: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(2),
         // In the real world you'd want to be very careful about having
@@ -76,23 +75,23 @@ export class AddTodoComponent implements OnInit {
 
       status: new UntypedFormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(10),
+        // Validators.minLength(8),
+        // Validators.maxLength(10),
         Validators.pattern('^(complete|incomplete)$')
       ])),
 
 
       body: new UntypedFormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(1000),
+        // Validators.required,
+        // Validators.minLength(2),
+        // Validators.maxLength(1000),
       ])),
 
 
       category: new UntypedFormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(50),
+        // Validators.minLength(2),
+        // Validators.maxLength(50),
       ])),
 
     });
@@ -105,14 +104,20 @@ export class AddTodoComponent implements OnInit {
 
 
   submitForm() {
-    this.todoService.addTodo(this.addTodoForm.value).subscribe({
+
+    // eslint-disable-next-line prefer-const
+    let todo = this.addTodoForm.value;
+    todo.status = false;
+
+
+    this.todoService.addTodo(todo).subscribe({
       next: (newID) => {
         this.snackBar.open(
-          `Added todo ${this.addTodoForm.value.name}`,
+          `Added todo for ${this.addTodoForm.value.owner}`,
           null,
           { duration: 2000 }
         );
-        this.router.navigate(['/todos/', newID]);
+        // this.router.navigate(['/todos/', newID]);
       },
       error: err => {
         this.snackBar.open(

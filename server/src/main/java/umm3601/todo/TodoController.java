@@ -197,34 +197,4 @@ public class TodoController {
     }
     ctx.status(HttpStatus.OK);
   }
-
-  /**
-   * Utility function to generate an URI that points
-   * at a unique avatar image based on a todo's email.
-   *
-   * This uses the service provided by gravatar.com; there
-   * are numerous other similar services that one could
-   * use if one wished.
-   *
-   * @param email the email to generate an avatar for
-   * @return a URI pointing to an avatar image
-   */
-
-
-  /**
-   * Utility function to generate the md5 hash for a given string
-   *
-   * @param str the string to generate a md5 for
-   */
-  @SuppressWarnings("lgtm[java/weak-cryptographic-algorithm]")
-  public String md5(String str) throws NoSuchAlgorithmException {
-    MessageDigest md = MessageDigest.getInstance("MD5");
-    byte[] hashInBytes = md.digest(str.toLowerCase().getBytes(StandardCharsets.UTF_8));
-
-    StringBuilder result = new StringBuilder();
-    for (byte b : hashInBytes) {
-      result.append(String.format("%02x", b));
-    }
-    return result.toString();
-  }
 }
