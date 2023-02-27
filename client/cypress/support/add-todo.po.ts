@@ -30,14 +30,14 @@ export class AddTodoPage {
 
   addTodo(newTodo: Todo) {
     this.getFormField('owner').type(newTodo.owner);
-    this.getFormField('status').type(newTodo.status.toString());
+    cy.get('mat-select[formControlName=status]').click().get('mat-option').contains('complete').click();
     if (newTodo.body) {
-      this.getFormField('body').type(newTodo.body);
+      this.getFormField('body').type(newTodo.body, {force: true});
     }
     if (newTodo.category) {
-      this.getFormField('category').type(newTodo.category);
+      this.getFormField('category').type(newTodo.category, {force: true});
     }
 
-    return this.addTodoButton().click();
+    return this.addTodoButton().click({force: true});
   }
 }
