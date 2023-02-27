@@ -4,9 +4,9 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+// import java.nio.charset.StandardCharsets;
+// import java.security.MessageDigest;
+// import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class TodoController {
   static final String BODY_KEY = "contains";
   static final String LIMIT_KEY = "limit";
 
-  private static final String STATUS_REGEX = "^(complete|incomplete)$";
+  // private static final String STATUS_REGEX = "^(complete|incomplete)$";
 
 
   private final JacksonMongoCollection<Todo> todoCollection;
@@ -115,7 +115,9 @@ public class TodoController {
 
 
     if (ctx.queryParamMap().containsKey(STATUS_KEY)) {
-      String status = ctx.queryParamAsClass(STATUS_KEY, String.class).get();
+      String status = ctx.queryParamAsClass(STATUS_KEY, String.class)
+      // .check(it -> it.matches(STATUS_REGEX), "Todo must have a legal todo status")
+      .get();
       Boolean statusValue = false;
       if (status.equals("complete")) {
         statusValue = true;
