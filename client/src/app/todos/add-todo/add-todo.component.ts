@@ -61,13 +61,13 @@ export class AddTodoComponent implements OnInit {
         // very long names. This demonstrates that it's possible, though,
         // to have maximum length limits.
         Validators.maxLength(50),
-        (fc) => {
-          if (fc.value.toLowerCase() === 'abc123' || fc.value.toLowerCase() === '123abc') {
-            return ({existingName: true});
-          } else {
-            return null;
-          }
-        },
+        // (fc) => {
+        //   if (fc.value.toLowerCase() === 'abc123' || fc.value.toLowerCase() === '123abc') {
+        //     return ({existingName: true});
+        //   } else {
+        //     return null;
+        //   }
+        // },
       ])),
 
 

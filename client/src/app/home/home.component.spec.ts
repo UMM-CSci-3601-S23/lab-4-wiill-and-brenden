@@ -28,7 +28,7 @@ describe('Home', () => {
 
   it('It has the basic home page text', () => {
     fixture.detectChanges();
-    expect(el.textContent).toContain('Welcome to our amazing website powered by Javalin and MongoDB!!');
+    expect(el.textContent).toContain('Welcome to our amazing website powered by Javalin and MongoDB!');
   });
 
 });
