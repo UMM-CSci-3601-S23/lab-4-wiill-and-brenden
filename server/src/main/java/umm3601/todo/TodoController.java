@@ -119,23 +119,12 @@ public class TodoController {
       // .check(it -> it.matches(STATUS_REGEX), "Todo must have a legal todo status")
       .get();
       Boolean statusValue = false;
-      if (status.equals("complete")) {
+      if (status.contains("complete")) {
         statusValue = true;
       }
       filters.add(eq(STATUS_KEY, statusValue));
     }
-    // if (ctx.queryParamMap().containsKey(STATUS_KEY)) {
-    //   Boolean statusbool = true;
-    //   String status = ctx.queryParamAsClass(STATUS_KEY, String.class)
-    //     .check(it -> it.matches(STATUS_REGEX), "Todo must have a legal todo status")
-    //     .get();
-    //   if (status.equals("complete")) {
-    //        statusbool = true;
-    //     } else {
-    //     statusbool = false;
-    //     }
-    //   filters.add(eq(STATUS_KEY, statusbool));
-    // }
+
 
     // Combine the list of filters into a single filtering document.
     Bson combinedFilter = filters.isEmpty() ? new Document() : and(filters);
@@ -145,7 +134,7 @@ public class TodoController {
 
   private Bson constructSortingOrder(Context ctx) {
     // Sort the results. Use the `sortby` query param (default "owner")
-    // as the field to sort by, and the query param `sortorder` (default
+    // as the field to sort by, and the query param `SortOrder` (default
     // "asc") to specify the sort order.
     String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "owner");
     String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "asc");

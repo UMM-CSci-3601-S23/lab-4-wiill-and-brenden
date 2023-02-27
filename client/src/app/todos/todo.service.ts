@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Todo } from './todo';
+import { Todo, TodoStatus } from './todo';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -37,7 +37,7 @@ export class TodoService {
    *  from the server after a possibly substantial delay (because we're
    *  contacting a remote server over the Internet).
    */
-  getTodos(filters?: { owner?: string; status?: string; body?: string; category?: string; limit?: number;
+  getTodos(filters?: { owner?: string; status?: TodoStatus; body?: string; category?: string; limit?: number;
     orderBy?: string; sortBy?: string; }): Observable<Todo[]> {
     // `HttpParams` is essentially just a map used to hold key-value
     // pairs that are then encoded as "?key1=value1&key2=value2&…" in
@@ -53,7 +53,6 @@ export class TodoService {
       if (filters.body) {
         httpParams = httpParams.set('body', filters.body);
       }
-
       if (filters.category) {
         httpParams = httpParams.set('category', filters.category);
       }
@@ -97,7 +96,7 @@ export class TodoService {
    * @param filters the map of key-value pairs used for the filtering
    * @returns an array of `Todos` matching the given filters
    */
-  filterTodos(todos: Todo[], filters: {owner?: string; status?: string; body?: string; category?: string; limit?: number}): Todo[] {
+  filterTodos(todos: Todo[], filters: {owner?: string; status?: TodoStatus; body?: string; category?: string; limit?: number}): Todo[] {
     let filteredTodos = todos;
 
     if (filters.owner) {
@@ -105,10 +104,10 @@ export class TodoService {
       filteredTodos = filteredTodos.filter(todo => todo.owner.toLowerCase().indexOf(filters.owner) !== -1);
     }
 
-    if (filters.status) {
-      filters.status = filters.status.toLowerCase();
-      filteredTodos = filteredTodos.filter(todo => todo.status.toLowerCase().indexOf(filters.status) !== -1);
-    }
+    // if (filters.status) {
+    //   filters.status = filters.status.toString().toLowerCase();
+    //   filteredTodos = filteredTodos.filter(todo => todo.status.toLowerCase().indexOf(filters.status) !== -1);
+    // }
 
     if (filters.body) {
       filters.body = filters.body.toLowerCase();
