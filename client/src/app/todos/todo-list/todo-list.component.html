@@ -46,6 +46,17 @@
             <mat-hint>Filtered on server</mat-hint>
           </mat-form-field>
 
+
+          <mat-form-field class="input-field">
+            <mat-label>Sort By</mat-label>
+            <mat-select (selectionChange)="getTodosFromServer()" [(ngModel)]="sortBy" data-test="todoSortBySelect">
+              <mat-option value="owner">Owner</mat-option>
+              <mat-option value="category">Category</mat-option>
+              <mat-option value="body">Body</mat-option>
+
+            </mat-select>
+          </mat-form-field>
+
         </div>
 
 

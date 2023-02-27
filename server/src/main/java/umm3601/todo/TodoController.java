@@ -110,22 +110,30 @@ public class TodoController {
     List<Bson> filters = new ArrayList<>(); // start with a blank document
 
     if (ctx.queryParamMap().containsKey(BODY_KEY)) {
-      Pattern pattern = Pattern.compile(ctx.queryParam(BODY_KEY), Pattern.CASE_INSENSITIVE);
-      filters.add(regex(BODY_KEY, pattern));
+      filters.add(regex(BODY_KEY,  Pattern.quote(ctx.queryParam(BODY_KEY)), "i"));
     }
 
+
     if (ctx.queryParamMap().containsKey(STATUS_KEY)) {
-      Boolean statusbool = true;
-      String status = ctx.queryParamAsClass(STATUS_KEY, String.class)
-        .check(it -> it.matches(STATUS_REGEX), "Todo must have a legal todo status")
-        .get();
+      String status = ctx.queryParamAsClass(STATUS_KEY, String.class).get();
+      Boolean statusValue = false;
       if (status.equals("complete")) {
-           statusbool = true;
-        } else {
-        statusbool = false;
-        }
-      filters.add(eq(STATUS_KEY, statusbool));
+        statusValue = true;
+      }
+      filters.add(eq(STATUS_KEY, statusValue));
     }
+    // if (ctx.queryParamMap().containsKey(STATUS_KEY)) {
+    //   Boolean statusbool = true;
+    //   String status = ctx.queryParamAsClass(STATUS_KEY, String.class)
+    //     .check(it -> it.matches(STATUS_REGEX), "Todo must have a legal todo status")
+    //     .get();
+    //   if (status.equals("complete")) {
+    //        statusbool = true;
+    //     } else {
+    //     statusbool = false;
+    //     }
+    //   filters.add(eq(STATUS_KEY, statusbool));
+    // }
 
     // Combine the list of filters into a single filtering document.
     Bson combinedFilter = filters.isEmpty() ? new Document() : and(filters);
