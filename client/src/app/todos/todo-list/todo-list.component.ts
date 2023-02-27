@@ -18,7 +18,6 @@ export class TodoListComponent implements OnInit {
   public todoOwner: string;
   public todoCategory: string;
   public viewType: 'card' | 'list' = 'card';
-  public orderBy: 'asc' | 'desc' = 'asc';
   public sortBy: 'owner' | 'category';
 
   constructor(private todoService: TodoService, private snackBar: MatSnackBar){
@@ -29,7 +28,6 @@ export class TodoListComponent implements OnInit {
     this.todoService.getTodos({
       body: this.todoBody,
       status: this.todoStatus,
-      orderBy: this.orderBy,
       sortBy: this.sortBy
      // limit: this.limit
     }).subscribe(returnedTodos => {
@@ -46,7 +44,8 @@ export class TodoListComponent implements OnInit {
 
   public updateFilter() {
     this.filteredTodos = this.todoService.filterTodos(
-      this.serverFilteredTodos, { owner: this.todoOwner, category: this.todoCategory, limit: this.limit}
+      this.serverFilteredTodos, { status: this.todoStatus, body: this.todoBody,
+        owner: this.todoOwner, category: this.todoCategory, limit: this.limit}
     );
   }
 
