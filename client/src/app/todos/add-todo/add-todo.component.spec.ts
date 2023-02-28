@@ -51,10 +51,10 @@ describe('AddTodoComponent', () => {
   // Including it, though, does give us confidence that our
   // our component definitions don't have errors that would
   // prevent them from being successfully constructed.
-  // it('should create the component and form', () => {
-  //   expect(addTodoComponent).toBeTruthy();
-  //   expect(addTodoForm).toBeTruthy();
-  // });
+  it('should create the component and form', () => {
+    expect(addTodoComponent).toBeTruthy();
+    expect(addTodoForm).toBeTruthy();
+  });
 
   // Confirms that an initial, empty form is *not* valid, so
   // people can't submit an empty form.
@@ -125,7 +125,7 @@ describe('AddTodoComponent', () => {
 
     it('should allow empty values', () => {
       statusControl.setValue('');
-      expect(statusControl.valid).toBeTruthy();
+      expect(statusControl.valid).toBeFalsy();
       expect(statusControl.hasError('required')).toBeTruthy();
     });
 
