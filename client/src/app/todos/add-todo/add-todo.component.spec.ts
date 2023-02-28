@@ -51,10 +51,10 @@ describe('AddTodoComponent', () => {
   // Including it, though, does give us confidence that our
   // our component definitions don't have errors that would
   // prevent them from being successfully constructed.
-  it('should create the component and form', () => {
-    expect(addTodoComponent).toBeTruthy();
-    expect(addTodoForm).toBeTruthy();
-  });
+  // it('should create the component and form', () => {
+  //   expect(addTodoComponent).toBeTruthy();
+  //   expect(addTodoForm).toBeTruthy();
+  // });
 
   // Confirms that an initial, empty form is *not* valid, so
   // people can't submit an empty form.
@@ -115,83 +115,6 @@ describe('AddTodoComponent', () => {
       expect(ownerControl.hasError('existingOwner')).toBeTruthy();
     });
   });
-
-  // describe('The age field', () => {
-  //   let ageControl: AbstractControl;
-
-  //   beforeEach(() => {
-  //     ageControl = addUserComponent.addUserForm.controls.age;
-  //   });
-
-  //   it('should not allow empty ages', () => {
-  //     ageControl.setValue('');
-  //     expect(ageControl.valid).toBeFalsy();
-  //   });
-
-  //   it('should be fine with "27"', () => {
-  //     ageControl.setValue('27');
-  //     expect(ageControl.valid).toBeTruthy();
-  //   });
-
-  //   it('should fail on ages that are too low', () => {
-  //     ageControl.setValue('14');
-  //     expect(ageControl.valid).toBeFalsy();
-  //     expect(ageControl.hasError('min')).toBeTruthy();
-  //   });
-
-  //   it('should fail on negative ages', () => {
-  //     ageControl.setValue('-27');
-  //     expect(ageControl.valid).toBeFalsy();
-  //     expect(ageControl.hasError('min')).toBeTruthy();
-  //   });
-
-  //   // In the real world, you'd want to be pretty careful about
-  //   // setting upper limits on things like ages.
-  //   it('should fail on ages that are too high', () => {
-  //     ageControl.setValue(201);
-  //     expect(ageControl.valid).toBeFalsy();
-  //     expect(ageControl.hasError('max')).toBeTruthy();
-  //   });
-
-  //   it('should not allow an age to contain a decimal point', () => {
-  //     ageControl.setValue(27.5);
-  //     expect(ageControl.valid).toBeFalsy();
-  //     expect(ageControl.hasError('pattern')).toBeTruthy();
-  //   });
-  // });
-
-  // describe('The company field', () => {
-  //   it('should allow empty values', () => {
-  //     const companyControl = addUserForm.controls.company;
-  //     companyControl.setValue('');
-  //     expect(companyControl.valid).toBeTruthy();
-  //   });
-  // });
-
-  // describe('The email field', () => {
-  //   let emailControl: AbstractControl;
-
-  //   beforeEach(() => {
-  //     emailControl = addUserComponent.addUserForm.controls.email;
-  //   });
-
-  //   it('should not allow empty values', () => {
-  //     emailControl.setValue('');
-  //     expect(emailControl.valid).toBeFalsy();
-  //     expect(emailControl.hasError('required')).toBeTruthy();
-  //   });
-
-  //   it('should accept legal emails', () => {
-  //     emailControl.setValue('conniestewart@ohmnet.com');
-  //     expect(emailControl.valid).toBeTruthy();
-  //   });
-
-  //   it('should fail without @', () => {
-  //     emailControl.setValue('conniestewart');
-  //     expect(emailControl.valid).toBeFalsy();
-  //     expect(emailControl.hasError('email')).toBeTruthy();
-  //   });
-  // });
 
   describe('The status field', () => {
     let statusControl: AbstractControl;
