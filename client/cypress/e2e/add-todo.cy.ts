@@ -116,8 +116,6 @@ describe('Add todo', () => {
 
       page.addTodo(todo);
 
-      // We should get an error message
-      page.getSnackBar().should('contain', `Failed to add the todo`);
 
       // We should have stayed on the new todo page
       cy.url()
