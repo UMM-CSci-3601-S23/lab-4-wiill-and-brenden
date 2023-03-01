@@ -55,11 +55,12 @@
 
 
         </mat-card-content>
-        <mat-card-actions align="start">
+        <mat-card-actions align="end">
           <button
             mat-button
             type="button"
             color="primary"
+            [disabled]="!addTodoForm.valid"
             type="submit"
             data-test="confirmAddTodoButton"
           >
