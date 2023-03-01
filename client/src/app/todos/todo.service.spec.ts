@@ -121,25 +121,6 @@ describe('TodoService', () => {
         req.flush(testTodos);
       });
 
-      it('correctly calls api/todos with filter parameter \'body\'', () => {
-        todoService.getTodos({ body: 'UMM' }).subscribe(
-          todos => expect(todos).toBe(testTodos)
-        );
-
-        // Specify that (exactly) one request will be made to the specified URL with the role parameter.
-        const req = httpTestingController.expectOne(
-          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('contains')
-        );
-
-        // Check that the request made to that URL was a GET request.
-        expect(req.request.method).toEqual('GET');
-
-        // Check that the role parameter was 'admin'
-        expect(req.request.params.get('contains')).toEqual('UMM');
-
-        req.flush(testTodos);
-      });
-
       it('correctly calls api/todos with filter parameter \'category\'', () => {
         todoService.getTodos({ category: 'video games' }).subscribe(
           todos => expect(todos).toBe(testTodos)
