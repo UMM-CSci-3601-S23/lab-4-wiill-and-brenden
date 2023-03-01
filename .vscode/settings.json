@@ -30,4 +30,5 @@
       "unsub"
     ],
     "angular.enable-experimental-ivy-prompt": false,
+    "java.debug.settings.onBuildFailureProceed": true,
 }
