@@ -33,8 +33,10 @@ import io.javalin.http.NotFoundResponse;
  */
 public class TodoController {
 
+  static final String CATEGORY_KEY = "category";
   static final String STATUS_KEY = "status";
-  static final String BODY_KEY = "contains";
+  static final String BODY_KEY = "body";
+  static final String CONTAINS_PARAMETER = "contains";
   static final String LIMIT_KEY = "limit";
 
   // private static final String STATUS_REGEX = "^(complete|incomplete)$";
@@ -109,8 +111,8 @@ public class TodoController {
   private Bson constructFilter(Context ctx) {
     List<Bson> filters = new ArrayList<>(); // start with a blank document
 
-    if (ctx.queryParamMap().containsKey(BODY_KEY)) {
-      filters.add(regex(BODY_KEY,  Pattern.quote(ctx.queryParam(BODY_KEY)), "i"));
+    if (ctx.queryParamMap().containsKey(CONTAINS_PARAMETER)) {
+      filters.add(regex(BODY_KEY,  Pattern.quote(ctx.queryParam(CONTAINS_PARAMETER)), "i"));
     }
 
 
@@ -163,7 +165,7 @@ public class TodoController {
     Todo newTodo = ctx.bodyValidator(Todo.class)
       .check(usr -> usr.owner != null && usr.owner.length() > 0, "Todo must have a non-empty todo name")
      // .check(usr -> usr.status.matches(STATUS_REGEX), "Todo must have a legal status")
-      .check(usr -> usr.body != null && usr.body.length() > 0, "Todo must have a non-empty company name")
+      .check(usr -> usr.body != null && usr.body.length() > 0, "Todo must have a non-empty body name")
       .check(usr -> usr.category != null && usr.category.length() > 0, "Todo must have a non-empty category name")
       .get();
 
