@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
@@ -156,8 +155,7 @@ public class TodoControllerSpec {
         .append("owner", "Sam")
         .append("category", "Games")
         .append("body", "Play Video Games")
-        .append("status", "complete")
-;
+        .append("status", "complete");
 
     todoDocuments.insertMany(testTodos);
     todoDocuments.insertOne(sam);
