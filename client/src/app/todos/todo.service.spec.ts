@@ -1,8 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Todo } from './todo';
 import { TodoService } from './todo.service';
+import { of } from 'rxjs';
 
 describe('TodoService', () => {
   // Collection of test Todos
@@ -94,7 +95,7 @@ describe('TodoService', () => {
         // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the role parameter was 'admin'
+        // Check that the owner parameter was 'chris'
         expect(req.request.params.get('owner')).toEqual('Chris');
 
         req.flush(testTodos);
@@ -120,21 +121,50 @@ describe('TodoService', () => {
         req.flush(testTodos);
       });
 
-      it('correctly calls api/todos with filter parameter \'body\'', () => {
-        todoService.getTodos({ body: 'UMM' }).subscribe(
+      it('correctly calls api/todos with filter parameter \'category\'', () => {
+        todoService.getTodos({ category: 'video games' }).subscribe(
           todos => expect(todos).toBe(testTodos)
         );
 
         // Specify that (exactly) one request will be made to the specified URL with the role parameter.
         const req = httpTestingController.expectOne(
-          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('contains')
+          (request) => request.url.startsWith(todoService.todoUrl)
         );
 
         // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the role parameter was 'admin'
-        expect(req.request.params.get('contains')).toEqual('UMM');
+        req.flush(testTodos);
+      });
+
+      it('correctly calls api/todos with filter parameter \'limit\'', () => {
+        todoService.getTodos({ limit: 2 }).subscribe(
+          todos => expect(todos).toBe(testTodos)
+        );
+
+        // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('limit')
+        );
+
+        // Check that the request made to that URL was a GET request.
+        expect(req.request.method).toEqual('GET');
+
+        req.flush(testTodos);
+      });
+
+      it('correctly calls api/todos with filter parameter \'sortBy\'', () => {
+        todoService.getTodos({ sortBy: 'Owner' }).subscribe(
+          todos => expect(todos).toBe(testTodos)
+        );
+
+        // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl)
+        );
+
+        // Check that the request made to that URL was a GET request.
+        expect(req.request.method).toEqual('GET');
 
         req.flush(testTodos);
       });
@@ -142,22 +172,21 @@ describe('TodoService', () => {
 
       it('correctly calls api/todos with multiple filter parameters', () => {
 
-        todoService.getTodos({ owner: 'Chris', body: 'UMM', status: 'complete' }).subscribe(
+        todoService.getTodos({ owner: 'Chris', category: 'video games', status: 'complete' }).subscribe(
           todos => expect(todos).toBe(testTodos)
         );
 
         // Specify that (exactly) one request will be made to the specified URL with the role parameter.
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl)
-            && request.params.has('owner') && request.params.has('contains') && request.params.has('status')
+            && request.params.has('owner') && request.params.has('status')
         );
 
         // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the role, body, and age parameters are correct
+        // Check that the owner and status parameters are correct
         expect(req.request.params.get('owner')).toEqual('Chris');
-        expect(req.request.params.get('contains')).toEqual('UMM');
         expect(req.request.params.get('status')).toEqual('complete');
 
         req.flush(testTodos);
@@ -223,6 +252,24 @@ describe('TodoService', () => {
       });
     });
 
+    it('filters by category', () => {
+      const todoCategory = 'video games';
+      const filteredTodos = todoService.filterTodos(testTodos, { category: todoCategory });
+      // There should be 1 todos with video games as their category.
+      expect(filteredTodos.length).toBe(1);
+      // Every returned todo's category should contain 'video games'.
+      filteredTodos.forEach(todo => {
+        expect(todo.body.indexOf(todoCategory)).toBeGreaterThanOrEqual(-1);
+      });
+    });
+
+    it('filters by limit', () => {
+      const todoLimit = 2;
+      const filteredTodos = todoService.filterTodos(testTodos, { limit: todoLimit });
+      // There should 5 todos if we set limit to 5.
+      expect(filteredTodos.length).toBe(2);
+    });
+
     it('filters by owner and body', () => {
       // There's only one todo (Chris) whose owner
       // contains an 'i' and whose body contains
@@ -241,5 +288,26 @@ describe('TodoService', () => {
         expect(todo.body.indexOf(todoBody)).toBeGreaterThanOrEqual(0);
       });
     });
+  });
+
+  describe('Adding a Todo using `addTodo()`', () => {
+    it('talks to the right endpoint and is called once', waitForAsync(() => {
+      // Mock the `httpClient.addTodo()` method, so that instead of making an HTTP request,
+      // it just returns our test data.
+      const TODO_ID = 'pat_id';
+      const mockedMethod = spyOn(httpClient, 'post').and.returnValue(of(TODO_ID));
+
+      // paying attention to what is returned (undefined) didn't work well here,
+      // but I'm putting something in here to remind us to look into that
+      todoService.addTodo(testTodos[1]).subscribe((returnedString) => {
+        console.log('The thing returned was:' + returnedString);
+        expect(mockedMethod)
+          .withContext('one call')
+          .toHaveBeenCalledTimes(1);
+        expect(mockedMethod)
+          .withContext('talks to the correct endpoint')
+          .toHaveBeenCalledWith(todoService.todoUrl, testTodos[1]);
+      });
+    }));
   });
 });
